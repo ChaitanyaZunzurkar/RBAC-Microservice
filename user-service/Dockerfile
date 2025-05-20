@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 5000
 
 # Start the service
-CMD ["node", "dist/index.js"]  # Or your start command
+CMD ["node", "dist/index.js"]  

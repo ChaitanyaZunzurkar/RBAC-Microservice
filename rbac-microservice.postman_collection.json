@@ -1,0 +1,555 @@
+{
+	"info": {
+		"_postman_id": "4810f255-36d4-4577-bbfe-9ca8cf2ab6c8",
+		"name": "rbac-microservice",
+		"description": "# API Endpoints Overview\n\n## User Service\n\n| Method | Endpoint | Description | Auth Required | Role Required |\n| --- | --- | --- | --- | --- |\n| GET | `/get-user/:id` | Get user by ID | Yes | Own user or Admin |\n| PUT | `/update-user/:id` | Update user info by ID | Yes | Own user or Admin |\n| GET | `/get-all-user` | Get all users (Admin only) | Yes | Admin |\n\n---\n\n## Auth Service\n\n| Method | Endpoint | Description | Auth Required | Notes |\n| --- | --- | --- | --- | --- |\n| POST | `/signup` | Register new user | No |  |\n| POST | `/signin` | User login | No |  |\n| POST | `/refresh-token` | Refresh JWT access token | No | Requires refresh token |\n| POST | `/otp-generator` | Generate OTP (optional) | No |  |\n| POST | `/logout/:id` | Logout user | Yes |  |\n\n---\n\n## Permission Service\n\n| Method | Endpoint | Description | Auth Required | Role Required |\n| --- | --- | --- | --- | --- |\n| POST | `/create-permission` | Create a permission | Yes | Admin |\n| GET | `/get-permissions` | List all permissions | Yes | Admin |\n| PUT | `/update-permissions/:id` | Update permission by ID | Yes | Admin |\n| DELETE | `/delete-permissions/:id` | Delete permission by ID | Yes | Admin |\n\n---\n\n## Role Service\n\n| Method | Endpoint | Description | Auth Required | Role Required |\n| --- | --- | --- | --- | --- |\n| POST | `/create-role` | Create a new role | Yes | Admin |\n| GET | `/get-roles` | Get all roles | Yes | Admin |\n| PUT | `/update-roles/:id` | Update role by ID | Yes | Admin |\n| DELETE | `/delete/:id` | Delete role by ID | Yes | Admin |\n| POST | `/assign-permissions/:roleId` | Assign permissions to role | Yes | Admin |\n\n---\n\n## UserRole Service\n\n| Method | Endpoint | Description | Auth Required | Role Required |\n| --- | --- | --- | --- | --- |\n| POST | `/assign-role-to-user/:userId` | Assign role to user | Yes | Admin |\n\n---\n\n## Notes\n\n- All endpoints marked \"Auth Required\" require a valid JWT token in `Authorization` header:  \n    `Authorization: Bearer`\n    \n- Role restrictions enforce RBAC policies; Admin role required for managing roles/permissions/users.\n    \n- For user-specific routes, access is restricted to the user themselves or Admin.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37924397"
+	},
+	"item": [
+		{
+			"name": "auth-service",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Chaitanya\",\r\n    \"lastName\": \"Zunzurkar\",\r\n    \"email\": \"chaitanyazunzurkar09@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"confirmPassword\": \"12345\",\r\n    \"otp\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"chaitanyazunzurkar@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refesh-token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/refresh-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"chaitanyazunzurkar@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/logout:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"logout:id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "OTP Generator",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"chaitanyazunzurkar@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/otp-generator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"otp-generator"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user-service",
+			"item": [
+				{
+					"name": "Get all users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user profile",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/users/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Chaitanya\",\r\n    \"lastName\": \"Zunzurkar\",\r\n    \"email\": \"chaitanyazunzurkar09@gmail.com\",\r\n    \"address\": \"Nagpur\",\r\n    \"phone\": \"1234567890\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/user/update-user/682bee5aa539cc9204845f7f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"update-user",
+								"682bee5aa539cc9204845f7f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "role-service",
+			"item": [
+				{
+					"name": "Permissions",
+					"item": [
+						{
+							"name": "Update permissions",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/update-permissions:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"update-permissions:id"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Permissions",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/delete-permissions:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"delete-permissions:id"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all Permissions",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/get-permissions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"get-permissions"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create permission",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"user-suspend\",\r\n    \"description\": \"Monitor user behaviour. If user behaviour found to be suspicous/wrong suspend user\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:4000/api/v1/permissions/create-permission",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"permissions",
+										"create-permission"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Role",
+					"item": [
+						{
+							"name": "Create Role",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/create-role",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"create-role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Roles",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/update-roles:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"update-roles:id"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Roles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/get-roles",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"get-roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Roles",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/delete:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"delete:id"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Assign permissions to role",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MmJlZTVhYTUzOWNjOTIwNDg0NWY3ZiIsImVtYWlsIjoiY2hhaXRhbnlhenVuenVya2FyMDlAZ21haWwuY29tIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3NzE0NDE5LCJleHAiOjE3NDc3MTUzMTl9.CBbEWZQZiCFGRfqj8mKxD0Ow9iC4oVKZUMbDibjLOM8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:4000/api/v1/roles/assign-permissions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "4000",
+									"path": [
+										"api",
+										"v1",
+										"roles",
+										"assign-permissions"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Assign role to user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"roleId\": \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/v1/users/assign-role-to-user/682bee5aa539cc9204845f7f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"assign-role-to-user",
+								"682bee5aa539cc9204845f7f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
