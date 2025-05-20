@@ -14,20 +14,13 @@ This project implements a scalable Role-Based Access Control (RBAC) system with 
 
 ## Tech Stack
 - Node.js + TypeScript + Express
-- Prisma ORM + PostgreSQL
+- Mongodb ORM + PostgreSQL
 - Redis for caching and token storage
 - RabbitMQ for inter-service communication
 - JWT + Refresh tokens for authentication
 - Docker & Docker Compose for containerization
 
 ---
-
-## Setup Instructions
-
-### Prerequisites
-- Docker and Docker Compose installed
-- Node.js (v18+) and npm/yarn installed (for local dev)
-- PostgreSQL client (optional)
 
 ### Environment Variables
 Create `.env` files inside each service folder with these variables:
@@ -42,7 +35,7 @@ JWT_REFRESH_SECRET=your_refresh_token_secret
 ```
 API Documentation
 
-    Postman collection is included at /postman_collection.json
+    Postman collection is included at in main directory as rbac-microservice.postman_collection.json
 
 Key Features
 
